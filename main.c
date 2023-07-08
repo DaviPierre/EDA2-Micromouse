@@ -89,12 +89,6 @@ int consequencia(char comando, int rotacao, int posicao, struct Graph *graph)
             return rotacao;
         }
 
-    case 's':
-        scanf("&d", sensor);
-        return sensor;
-
-        break;
-
     default:
         break;
     }
@@ -111,6 +105,7 @@ void player(struct Graph *graph)
     int bateu = 0;
     int localiza = 0;
     int bits[4];
+    int distancia_o, distancia_x, distancia_y;
 
     while (para == 1)
     {
@@ -130,7 +125,7 @@ void player(struct Graph *graph)
         else if (comando == 'm')
         {
 
-            scanf("%d", bateu);
+            scanf("%d", &bateu);
 
             if (bateu == 0)
             {
@@ -243,7 +238,7 @@ void player(struct Graph *graph)
         else if (comando == 'M')
         {
 
-            bateu = concequencia(comando, rotacao, posicao, graph);
+            scanf("%d", &bateu);
 
             if (bateu == 2)
             {
@@ -351,7 +346,7 @@ void player(struct Graph *graph)
         //===========================================RADAR DE PAREDES===========================================//
         else if (comando == 's')
         {
-            localiza = concequencia(comando, rotacao, posicao, graph);
+            scanf("%d", &localiza);
 
             //Função binário
             if (localiza == 0)
@@ -406,6 +401,22 @@ void player(struct Graph *graph)
                 }
             }
 
+        }
+
+        //===========================================RADAR DE OBJETIVO===========================================//
+        else if(comando == 'd'){
+            int distancia;
+            scanf("%d", &distancia);
+            if(distancia_o == 0){
+                distancia_o = distancia;
+            }
+            else if(distancia_x = 0){
+                distancia_x = distancia;
+            }
+            else if(distancia_y = 0){
+                distancia_y = distancia;
+            }
+            
         }
 
         else
