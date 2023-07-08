@@ -56,33 +56,23 @@ void addEdge(struct Graph *graph, int src, int dest)
 }
 //===========================================FIM DA CRAIÇÃO DO LABIRINTO===========================================//
 
-// bool procuraAdjacencia(struct Graph* graph, int src, int dest) {
-//     struct Vertex* current = graph->adjacencyList[src];
-
-//     while (current != NULL) {
-//         if (current->id == dest) {
-
-//             return true;
-//         }
-//         current = current->next;
-//     }
-
-//     return false;
-// }
-
 int consequencia(char comando, int rotacao, int posicao, struct Graph *graph)
 {
+    int sensor;
+
     switch (comando)
     {
     case 'l':
         if (rotacao == 0)
         {
             rotacao = 3;
+            return rotacao;
         }
 
         else
         {
             rotacao--;
+            return rotacao;
         }
         break;
 
@@ -90,12 +80,20 @@ int consequencia(char comando, int rotacao, int posicao, struct Graph *graph)
         if (rotacao == 3)
         {
             rotacao = 0;
+            return rotacao;
         }
 
         else
         {
             rotacao++;
+            return rotacao;
         }
+
+    case 's':
+        scanf("&d", sensor);
+        return sensor;
+
+        break;
 
     default:
         break;
@@ -112,6 +110,7 @@ void player(struct Graph *graph)
     int para = 1;
     int bateu = 0;
     int localiza = 0;
+    int bits[4];
 
     while (para == 1)
     {
@@ -353,6 +352,59 @@ void player(struct Graph *graph)
         else if (comando == 's')
         {
             localiza = concequencia(comando, rotacao, posicao, graph);
+
+            if (localiza == 0)
+            {
+                printf("0");
+                return;
+            }
+            else if (localiza == 1)
+            {
+                printf("1");
+                return;
+            }
+
+            int i = 0;
+            while (localiza > 0)
+            {
+                bits[i] = localiza % 2;
+                localiza = localiza / 2;
+                i++;
+            }
+
+            for(int i = 0; i < 4; i++){
+                switch (i)
+                {
+                //Frente
+                case 0:
+                    if(bits[i] == 0){
+                        addEdge(graph, posicao, posicao - 1000);
+                    }
+                    break;
+                //Direita
+                case 1:
+                    if(bits[i] == 0){
+                        addEdge(graph, posicao, posicao + 1);
+                    }
+                    break;
+                //traz
+                case 2:
+                    if(bits[i] == 0){
+                        addEdge(graph, posicao, posicao + 1000);
+                    }
+                    break;
+                //Esquerda
+                case 3:
+                    if(bits[i] == 0){
+                        addEdge(graph, posicao, posicao - 1);
+                    }
+                    break;
+                default:
+                    printf("Error");
+                    break;
+                }
+            }
+
         }
 
         else
