@@ -353,6 +353,7 @@ void player(struct Graph *graph)
         {
             localiza = concequencia(comando, rotacao, posicao, graph);
 
+            //Função binário
             if (localiza == 0)
             {
                 printf("0");
@@ -371,7 +372,7 @@ void player(struct Graph *graph)
                 localiza = localiza / 2;
                 i++;
             }
-
+            //Interpreta binário
             for(int i = 0; i < 4; i++){
                 switch (i)
                 {
