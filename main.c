@@ -56,6 +56,23 @@ void addEdge(struct Graph *graph, int src, int dest)
 }
 //===========================================FIM DA CRAIÇÃO DO LABIRINTO===========================================//
 
+bool procuraAdjacencia(struct Graph *graph, int src, int dest)
+{
+    struct Vertex *current = graph->adjacencyList[src];
+
+    while (current != NULL)
+    {
+        if (current->id == dest)
+        {
+
+            return true;
+        }
+        current = current->next;
+    }
+
+    return false;
+}
+
 int consequencia(char comando, int rotacao, int posicao, struct Graph *graph)
 {
     int sensor;
@@ -104,21 +121,23 @@ void player(struct Graph *graph)
     int para = 1;
     int bateu = 0;
     int localiza = 0;
+    int acontece;
     int bits[4];
     int distancia_o, distancia_x, distancia_y;
+    comando = 's';
 
     while (para == 1)
     {
-
         //===========================================ROTACIONANDO===========================================//
         if (comando == 'l' || comando == 'r')
         {
-            rotacao = concequencia(comando, rotacao, posicao, graph);
+            rotacao = consequencia(comando, rotacao, posicao, graph);
             // Teste
             printf("rotacao: %d\n", rotacao);
             printf("posicao: %d\n", posicao);
             // Teste
-            scanf("%d", consequencia);
+            scanf("%d", &acontece);
+            comando = 'm';
             printf("%c\n", comando);
         }
         //===========================================ANDANDO===========================================//
@@ -141,6 +160,7 @@ void player(struct Graph *graph)
                     printf("posicao: %d\n", posicao);
                     // Teste
                     break;
+                    comando = 's';
 
                 // olhando para direita
                 case 1:
@@ -149,6 +169,7 @@ void player(struct Graph *graph)
                     // Teste
                     printf("rotacao: %d\n", rotacao);
                     printf("posicao: %d\n", posicao);
+                    comando = 's';
                     // Teste
                     break;
 
@@ -159,6 +180,7 @@ void player(struct Graph *graph)
                     // Teste
                     printf("rotacao: %d\n", rotacao);
                     printf("posicao: %d\n", posicao);
+                    comando = 's';
                     // Teste
                     break;
 
@@ -169,6 +191,7 @@ void player(struct Graph *graph)
                     // Teste
                     printf("rotacao: %d\n", rotacao);
                     printf("posicao: %d\n", posicao);
+                    comando = 's';
                     // Teste
                     break;
                 }
@@ -230,134 +253,152 @@ void player(struct Graph *graph)
                 // Teste
                 printf("rotacao: %d\n", rotacao);
                 printf("posicao: %d\n", posicao);
+                if (procuraAdjacencia(graph, posicao, posicao + 1))
+                {
+                    comando = 'r';
+                }
+                else if (procuraAdjacencia(graph, posicao, posicao - 1))
+                {
+                    comando = 'l';
+                }
                 // Teste
             }
         }
 
         //===========================================CORRENDO===========================================//
-        else if (comando == 'M')
-        {
+        // else if (comando == 'M')
+        // {
 
-            scanf("%d", &bateu);
+        //     scanf("%d", &bateu);
 
-            if (bateu == 2)
-            {
-                switch (rotacao)
-                {
+        //     if (bateu == 2)
+        //     {
+        //         switch (rotacao)
+        //         {
 
-                // olhando para frente
-                case 0:
-                    posicao -= 1000;
-                    addEdge(graph, posicao, posicao + 1000);
-                    // Teste
-                    printf("rotacao: %d\n", rotacao);
-                    printf("posicao: %d\n", posicao);
-                    // Teste
-                    break;
+        //         // olhando para frente
+        //         case 0:
+        //             posicao -= 1000;
+        //             addEdge(graph, posicao, posicao + 1000);
+        //             // Teste
+        //             printf("rotacao: %d\n", rotacao);
+        //             printf("posicao: %d\n", posicao);
+        //             // Teste
+        //             break;
 
-                // olhando para direita
-                case 1:
-                    posicao++;
-                    addEdge(graph, posicao, posicao - 1);
-                    // Teste
-                    printf("rotacao: %d\n", rotacao);
-                    printf("posicao: %d\n", posicao);
-                    // Teste
-                    break;
+        //         // olhando para direita
+        //         case 1:
+        //             posicao++;
+        //             addEdge(graph, posicao, posicao - 1);
+        //             // Teste
+        //             printf("rotacao: %d\n", rotacao);
+        //             printf("posicao: %d\n", posicao);
+        //             // Teste
+        //             break;
 
-                // olhando pra traz
-                case 2:
-                    posicao += 1000;
-                    addEdge(graph, posicao, posicao - 1000);
-                    // Teste
-                    printf("rotacao: %d\n", rotacao);
-                    printf("posicao: %d\n", posicao);
-                    // Teste
-                    break;
+        //         // olhando pra traz
+        //         case 2:
+        //             posicao += 1000;
+        //             addEdge(graph, posicao, posicao - 1000);
+        //             // Teste
+        //             printf("rotacao: %d\n", rotacao);
+        //             printf("posicao: %d\n", posicao);
+        //             // Teste
+        //             break;
 
-                // olhando pra esquerda
-                case 3:
-                    posicao--;
-                    addEdge(graph, posicao, posicao + 1);
-                    // Teste
-                    printf("rotacao: %d\n", rotacao);
-                    printf("posicao: %d\n", posicao);
-                    // Teste
-                    break;
-                }
-            }
+        //         // olhando pra esquerda
+        //         case 3:
+        //             posicao--;
+        //             addEdge(graph, posicao, posicao + 1);
+        //             // Teste
+        //             printf("rotacao: %d\n", rotacao);
+        //             printf("posicao: %d\n", posicao);
+        //             // Teste
+        //             break;
+        //         }
+        //     }
 
-            if (bateu == 3)
-            {
-                switch (rotacao)
-                {
+        //     if (bateu == 3)
+        //     {
+        //         switch (rotacao)
+        //         {
 
-                // olhando para frente
-                case 0:
-                    posicao -= 2000;
-                    addEdge(graph, posicao, posicao + 2000);
-                    // Teste
-                    printf("rotacao: %d\n", rotacao);
-                    printf("posicao: %d\n", posicao);
-                    // Teste
-                    break;
+        //         // olhando para frente
+        //         case 0:
+        //             posicao -= 2000;
+        //             addEdge(graph, posicao, posicao + 2000);
+        //             // Teste
+        //             printf("rotacao: %d\n", rotacao);
+        //             printf("posicao: %d\n", posicao);
+        //             // Teste
+        //             break;
 
-                // olhando para direita
-                case 1:
-                    posicao += 2;
-                    addEdge(graph, posicao, posicao - 2);
-                    // Teste
-                    printf("rotacao: %d\n", rotacao);
-                    printf("posicao: %d\n", posicao);
-                    // Teste
-                    break;
+        //         // olhando para direita
+        //         case 1:
+        //             posicao += 2;
+        //             addEdge(graph, posicao, posicao - 2);
+        //             // Teste
+        //             printf("rotacao: %d\n", rotacao);
+        //             printf("posicao: %d\n", posicao);
+        //             // Teste
+        //             break;
 
-                // olhando pra traz
-                case 2:
-                    posicao += 2000;
-                    addEdge(graph, posicao, posicao - 2000);
-                    // Teste
-                    printf("rotacao: %d\n", rotacao);
-                    printf("posicao: %d\n", posicao);
-                    // Teste
-                    break;
+        //         // olhando pra traz
+        //         case 2:
+        //             posicao += 2000;
+        //             addEdge(graph, posicao, posicao - 2000);
+        //             // Teste
+        //             printf("rotacao: %d\n", rotacao);
+        //             printf("posicao: %d\n", posicao);
+        //             // Teste
+        //             break;
 
-                // olhando pra esquerda
-                case 3:
-                    posicao -= 2;
-                    addEdge(graph, posicao, posicao + 2);
-                    // Teste
-                    printf("rotacao: %d\n", rotacao);
-                    printf("posicao: %d\n", posicao);
-                    // Teste
-                    break;
-                }
-            }
+        //         // olhando pra esquerda
+        //         case 3:
+        //             posicao -= 2;
+        //             addEdge(graph, posicao, posicao + 2);
+        //             // Teste
+        //             printf("rotacao: %d\n", rotacao);
+        //             printf("posicao: %d\n", posicao);
+        //             // Teste
+        //             break;
+        //         }
+        //     }
 
-            else
-            {
-                // Teste
-                printf("rotacao: %d\n", rotacao);
-                printf("posicao: %d\n", posicao);
-                // Teste
-            }
-        }
+        //     else
+        //     {
+        //         // Teste
+        //         printf("rotacao: %d\n", rotacao);
+        //         printf("posicao: %d\n", posicao);
+        //         // Teste
+        //     }
+        // }
 
         //===========================================RADAR DE PAREDES===========================================//
         else if (comando == 's')
         {
             scanf("%d", &localiza);
 
-            //Função binário
+            // Função binário
             if (localiza == 0)
             {
-                printf("0");
-                return;
+                addEdge(graph, posicao, posicao - 1000);
+
+                addEdge(graph, posicao, posicao + 1);
+
+                addEdge(graph, posicao, posicao + 1000);
+
+                addEdge(graph, posicao, posicao - 1);
+
+                comando = 'm';
             }
             else if (localiza == 1)
             {
-                printf("1");
-                return;
+                addEdge(graph, posicao, posicao + 1);
+
+                addEdge(graph, posicao, posicao + 1000);
+
+                addEdge(graph, posicao, posicao - 1);
             }
 
             int i = 0;
@@ -367,31 +408,37 @@ void player(struct Graph *graph)
                 localiza = localiza / 2;
                 i++;
             }
-            //Interpreta binário
-            for(int i = 0; i < 4; i++){
+            // Interpreta binário
+            for (int i = 0; i < 4; i++)
+            {
                 switch (i)
                 {
-                //Frente
+                // Frente
                 case 0:
-                    if(bits[i] == 0){
+                    if (bits[i] == 0)
+                    {
                         addEdge(graph, posicao, posicao - 1000);
+                        comando = 'm';
                     }
                     break;
-                //Direita
+                // Direita
                 case 1:
-                    if(bits[i] == 0){
+                    if (bits[i] == 0)
+                    {
                         addEdge(graph, posicao, posicao + 1);
                     }
                     break;
-                //traz
+                // traz
                 case 2:
-                    if(bits[i] == 0){
+                    if (bits[i] == 0)
+                    {
                         addEdge(graph, posicao, posicao + 1000);
                     }
                     break;
-                //Esquerda
+                // Esquerda
                 case 3:
-                    if(bits[i] == 0){
+                    if (bits[i] == 0)
+                    {
                         addEdge(graph, posicao, posicao - 1);
                     }
                     break;
@@ -400,23 +447,25 @@ void player(struct Graph *graph)
                     break;
                 }
             }
-
         }
 
         //===========================================RADAR DE OBJETIVO===========================================//
-        else if(comando == 'd'){
+        else if (comando == 'd')
+        {
             int distancia;
             scanf("%d", &distancia);
-            if(distancia_o == 0){
+            if (distancia_o == 0)
+            {
                 distancia_o = distancia;
             }
-            else if(distancia_x = 0){
+            else if (distancia_x = 0)
+            {
                 distancia_x = distancia;
             }
-            else if(distancia_y = 0){
+            else if (distancia_y = 0)
+            {
                 distancia_y = distancia;
             }
-            
         }
 
         else
